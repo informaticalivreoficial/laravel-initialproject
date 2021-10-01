@@ -1,22 +1,27 @@
-@extends('cms.master.master')
+@extends('adminlte::page')
+
+@section('title', 'Gerenciar Time')
+
+@section('css')
+<link rel="stylesheet" href="{{url(asset('backend/plugins/ekko-lightbox/ekko-lightbox.css'))}}">
+<link href="{{url(asset('backend/plugins/bootstrap-toggle/bootstrap-toggle.min.css'))}}" rel="stylesheet">
+@stop
+
+@section('content_header')
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <h1><i class="fas fa-search mr-2"></i> Time</h1>
+    </div>
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">                    
+            <li class="breadcrumb-item"><a href="{{route('home')}}">Painel de Controle</a></li>
+            <li class="breadcrumb-item active">Time</li>
+        </ol>
+    </div>
+</div>
+@stop
 
 @section('content')
-<!-- Content Header (Page header) -->
-<section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1><i class="fas fa-users mr-2"></i>Time</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{route('home')}}">Painel de Controle</a></li>
-                    <li class="breadcrumb-item active">Time</li>
-                </ol>
-            </div>
-        </div>
-    </div><!-- /.container-fluid -->
-</section>
 
 <!-- Main content -->
 <section class="content">

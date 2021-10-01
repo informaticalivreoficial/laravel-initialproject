@@ -10,8 +10,10 @@ Route::prefix('admin')->middleware('auth')->group( function(){
     /*********************** Usuários *******************************************/
     Route::match(['get', 'post'], 'usuarios/pesquisa', [UserController::class, 'search'])->name('users.search');
     Route::match(['post', 'get'], 'usuarios/fetchCity', [UserController::class, 'fetchCity'])->name('users.fetchCity');
-    //Route::delete('profiles/deleteon', [ProfileController::class, 'deleteon'])->name('profiles.deleteon');
-    //Route::get('profiles/delete', [ProfileController::class, 'delete'])->name('profiles.delete');
+    Route::delete('usuarios/deleteon', [UserController::class, 'deleteon'])->name('users.deleteon');
+    Route::get('usuarios/set-status', [UserController::class, 'userSetStatus'])->name('users.userSetStatus');
+    Route::get('usuarios/delete', [UserController::class, 'delete'])->name('users.delete');
+    Route::get('usuarios/time', [UserController::class, 'team'])->name('users.team');
     Route::get('usuarios/view/{id}', [UserController::class, 'show'])->name('users.view');
     Route::put('usuarios/{id}', [UserController::class, 'update'])->name('users.update');
     Route::get('usuarios/{id}/edit', [UserController::class, 'edit'])->name('users.edit');

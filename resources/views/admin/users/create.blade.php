@@ -75,12 +75,12 @@
                                                 <div class="col-12 col-md-6 col-lg-8 mb-2">
                                                     <div class="form-group">
                                                         <label class="labelforms text-muted"><b>*Nome</b></label>
-                                                        <input type="text" class="form-control" placeholder="Nome do Cliente" name="name" value="{{ old('name') }}">
+                                                        <input type="text" class="form-control" placeholder="Nome" name="name" value="{{ old('name') }}">
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-6 col-lg-4 mb-2"> 
                                                     <div class="form-group">
-                                                        <label class="labelforms"><b>*Data de Nascimento</b></label>
+                                                        <label class="labelforms text-muted"><b>*Data de Nascimento</b></label>
                                                         <div class="input-group">
                                                             <input type="text" class="form-control datepicker-here" data-language='pt-BR' name="nasc" value="{{ old('nasc') }}"/>
                                                             <div class="input-group-append">
