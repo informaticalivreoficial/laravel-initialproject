@@ -32,8 +32,7 @@ class CreatePostsTable extends Migration
             $table->timestamps();
 
             $table->foreign('autor')->references('id')->on('users')->onDelete('CASCADE');
-            $table->foreign('categoria')->references('id')->on('cat_posts')->onDelete('CASCADE');
-            $table->foreign('tenant_id')->references('id')->on('tenants')->onDelete('CASCADE');
+            $table->foreign('categoria')->references('id')->on('cat_post')->onDelete('CASCADE');
         });
     }
 

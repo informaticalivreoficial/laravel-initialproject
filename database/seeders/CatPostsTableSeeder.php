@@ -14,7 +14,7 @@ class CatPostsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('cat_posts')->insert([
+        DB::table('cat_post')->insert([
             [
                 'id' => 1,
                 'id_pai' => null,
