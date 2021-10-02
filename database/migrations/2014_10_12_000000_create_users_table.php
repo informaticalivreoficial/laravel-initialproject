@@ -66,6 +66,9 @@ class CreateUsersTable extends Migration
             $table->string('rg_expedicao_conjuje')->nullable();
             $table->date('nasc_conjuje')->nullable();
             $table->string('naturalidade_conjuje')->nullable();
+            $table->string('profissao_conjuje')->nullable();
+            $table->double('renda_conjuje', 10, 2)->nullable();
+            $table->string('profissao_empresa_conjuje')->nullable();
 
             /** Redes Sociais */
             $table->string('facebook')->nullable();

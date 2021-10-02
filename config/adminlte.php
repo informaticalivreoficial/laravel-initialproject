@@ -255,11 +255,7 @@ return [
                 ]
             ]
         ],
-        [
-            'text' => 'Roteiros',
-            'url'  => 'admin/roteiros',
-            'icon' => 'fas fa-fw fa-plane',
-        ],        
+              
         
     ],
 

@@ -2,11 +2,6 @@
 
 @section('title', 'Gerenciar Clientes')
 
-@section('css')
-<link rel="stylesheet" href="{{url(asset('backend/plugins/ekko-lightbox/ekko-lightbox.css'))}}">
-<link href="{{url(asset('backend/plugins/bootstrap-toggle/bootstrap-toggle.min.css'))}}" rel="stylesheet">
-@stop
-
 @section('content_header')
 <div class="row mb-2">
     <div class="col-sm-6">
@@ -30,7 +25,7 @@
                         <div style="width: 250px;">
                             <form class="input-group input-group-sm" action="{{route('users.search')}}" method="post">
                                 @csrf   
-                                <input type="text" name="filter" value="{{ $filters['search'] ?? '' }}" class="form-control float-right" placeholder="Pesquisar">
+                                <input type="text" name="filter" value="{{ $filters['filter'] ?? '' }}" class="form-control float-right" placeholder="Pesquisar">
                 
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-default">
@@ -89,7 +84,7 @@
                             </td>
                             <td>{{$user->name}}</td>
                             <td>{{$user->cpf}}</td>
-                            <td>{{--$user->getFuncao()--}}</td>
+                            <td>{{$user->getFuncao()}}</td>
                             <td>
                                 <input type="checkbox" data-onstyle="success" data-offstyle="warning" data-size="mini" class="toggle-class" data-id="{{ $user->id }}" data-toggle="toggle" data-style="slow" data-on="<i class='fas fa-check'></i>" data-off="<i style='color:#fff !important;' class='fas fa-exclamation-triangle'></i>" {{ $user->status == true ? 'checked' : ''}}>
                                 @if($user->whatsapp != '')
@@ -156,6 +151,11 @@
 </div>
 @stop
 
+@section('css')
+<link rel="stylesheet" href="{{url(asset('backend/plugins/ekko-lightbox/ekko-lightbox.css'))}}">
+<link href="{{url(asset('backend/plugins/bootstrap-toggle/bootstrap-toggle.min.css'))}}" rel="stylesheet">
+@stop
+
 @section('js')
     <script src="{{url(asset('backend/plugins/ekko-lightbox/ekko-lightbox.min.js'))}}"></script>
     <script src="{{url(asset('backend/plugins/bootstrap-toggle/bootstrap-toggle.min.js'))}}"></script>
@@ -209,7 +209,7 @@
                 $.ajax({
                     type: 'GET',
                     dataType: 'JSON',
-                    url: '{{-- route('users.userSetStatus') --}}',
+                    url: "{{ route('users.userSetStatus') }}",
                     data: {
                         'status': status,
                         'id': user_id

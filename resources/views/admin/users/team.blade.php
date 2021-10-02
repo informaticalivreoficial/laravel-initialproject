@@ -2,11 +2,6 @@
 
 @section('title', 'Gerenciar Time')
 
-@section('css')
-<link rel="stylesheet" href="{{url(asset('backend/plugins/ekko-lightbox/ekko-lightbox.css'))}}">
-<link href="{{url(asset('backend/plugins/bootstrap-toggle/bootstrap-toggle.min.css'))}}" rel="stylesheet">
-@stop
-
 @section('content_header')
 <div class="row mb-2">
     <div class="col-sm-6">
@@ -114,9 +109,9 @@
                         @if($user->superadmin == true && \Illuminate\Support\Facades\Auth::user()->admin == true)
                             
                         @elseif($user->superadmin == true && \Illuminate\Support\Facades\Auth::user()->superadmin == true)
-                            <a href="{{route('users.edit',['user' => $user->id])}}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
+                            <a href="{{route('users.edit',['id' => $user->id])}}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
                         @else
-                            <a href="{{route('users.edit',['user' => $user->id])}}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
+                            <a href="{{route('users.edit',['id' => $user->id])}}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
                         @endif
                         
                         
@@ -175,12 +170,16 @@
     <!-- /.modal-dialog -->
 </div>
 
-
-
-
 @endsection
 
+@section('css')
+<link rel="stylesheet" href="{{url(asset('backend/plugins/ekko-lightbox/ekko-lightbox.css'))}}">
+<link href="{{url(asset('backend/plugins/bootstrap-toggle/bootstrap-toggle.min.css'))}}" rel="stylesheet">
+@stop
+
 @section('js')
+    <script src="{{url(asset('backend/plugins/ekko-lightbox/ekko-lightbox.min.js'))}}"></script>
+    <script src="{{url(asset('backend/plugins/bootstrap-toggle/bootstrap-toggle.min.js'))}}"></script>
     <script>
         $(function () {            
             $.ajaxSetup({
@@ -195,7 +194,7 @@
                 $.ajax({
                     type: 'GET',
                     dataType: 'JSON',
-                    url: '{{ route('users.delete') }}',
+                    url: "{{ route('users.delete') }}",
                     data: {
                        'id': user_id
                     },
@@ -223,7 +222,7 @@
                 $.ajax({
                     type: 'GET',
                     dataType: 'JSON',
-                    url: '{{ route('users.userSetStatus') }}',
+                    url: "{{ route('users.userSetStatus') }}",
                     data: {
                         'status': status,
                         'id': user_id

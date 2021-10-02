@@ -40,7 +40,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">Dados Cadastrais</a>
                                 </li>                               
-                                
+                                <li class="nav-item">
+                                    <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Dados Complementares</a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link" id="custom-tabs-four-redes-tab" data-toggle="pill" href="#custom-tabs-four-redes" role="tab" aria-controls="custom-tabs-four-redes" aria-selected="false">Redes Sociais</a>
                                 </li>
@@ -120,7 +122,7 @@
                                                 </div>
                                                 <div class="col-12 col-md-6 col-lg-4 mb-2"> 
                                                     <div class="form-group">
-                                                        <label class="labelforms text-muted"><b>*RG</b></label>
+                                                        <label class="labelforms text-muted"><b>RG</b></label>
                                                         <input type="text" class="form-control rgmask" placeholder="RG do Cliente" name="rg" value="{{ old('rg') }}"/>
                                                     </div>
                                                 </div>
@@ -132,7 +134,7 @@
                                                 </div>
                                                 <div class="col-12 col-md-6 col-lg-4 mb-2"> 
                                                     <div class="form-group">
-                                                        <label class="labelforms text-muted"><b>*Naturalidade</b></label>
+                                                        <label class="labelforms text-muted"><b>Naturalidade</b></label>
                                                         <input type="text" class="form-control" placeholder="Cidade de Nascimento" name="naturalidade" value="{{ old('naturalidade') }}">
                                                     </div>
                                                 </div>
@@ -188,7 +190,7 @@
                                                     <div class="row mb-2">
                                                         <div class="col-12 col-md-4 col-lg-4"> 
                                                             <div class="form-group">
-                                                                <label class="labelforms text-muted"><b>*Estado:</b></label>
+                                                                <label class="labelforms text-muted"><b>Estado:</b></label>
                                                                 <select id="state-dd" class="form-control" name="uf">
                                                                     @if(!empty($estados))
                                                                         @foreach($estados as $estado)
@@ -200,7 +202,7 @@
                                                         </div>
                                                         <div class="col-12 col-md-4 col-lg-4"> 
                                                             <div class="form-group">
-                                                                <label class="labelforms text-muted"><b>*Cidade:</b></label>
+                                                                <label class="labelforms text-muted"><b>Cidade:</b></label>
                                                                 <select id="city-dd" class="form-control" name="cidade">
                                                                     @if(!empty($cidades) && !empty($user->cidade))
                                                                         @foreach($cidades as $cidade)
@@ -212,7 +214,7 @@
                                                         </div>
                                                         <div class="col-12 col-md-4 col-lg-4"> 
                                                             <div class="form-group">
-                                                                <label class="labelforms text-muted"><b>*Bairro:</b></label>
+                                                                <label class="labelforms text-muted"><b>Bairro:</b></label>
                                                                 <input type="text" class="form-control" placeholder="Bairro" name="bairro" value="{{old('bairro')}}">
                                                             </div>
                                                         </div>
@@ -220,13 +222,13 @@
                                                     <div class="row mb-2">
                                                         <div class="col-12 col-md-6 col-lg-5"> 
                                                             <div class="form-group">
-                                                                <label class="labelforms text-muted"><b>*Endereço:</b></label>
+                                                                <label class="labelforms text-muted"><b>Endereço:</b></label>
                                                                 <input type="text" class="form-control" placeholder="Endereço Completo" name="rua" value="{{old('rua')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-12 col-md-6 col-lg-2"> 
                                                             <div class="form-group">
-                                                                <label class="labelforms text-muted"><b>*Número:</b></label>
+                                                                <label class="labelforms text-muted"><b>Número:</b></label>
                                                                 <input type="text" class="form-control" placeholder="Número do Endereço" name="num" value="{{old('num')}}">
                                                             </div>
                                                         </div>
@@ -238,7 +240,7 @@
                                                         </div>
                                                         <div class="col-12 col-md-6 col-lg-2"> 
                                                             <div class="form-group">
-                                                                <label class="labelforms text-muted"><b>*CEP:</b></label>
+                                                                <label class="labelforms text-muted"><b>CEP:</b></label>
                                                                 <input type="text" class="form-control mask-zipcode" placeholder="Digite o CEP" name="cep" value="{{old('cep')}}">
                                                             </div>
                                                         </div>
@@ -278,7 +280,7 @@
                                                         <div class="col-12 col-md-6 col-lg-4"> 
                                                             <div class="form-group">
                                                                 <label class="labelforms text-muted"><b>E-mail Alternativo:</b></label>
-                                                                <input type="text" class="form-control" placeholder="Email Alternativo" name="email1" value="{{old('email1')}}">
+                                                                <input type="text" autocomplete="off" class="form-control" placeholder="Email Alternativo" name="email1" value="{{old('email1')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-12 col-md-6 col-lg-4"> 
@@ -312,7 +314,7 @@
                                                             <div class="form-group">
                                                                 <label class="labelforms text-muted"><b>*Senha:</b></label>
                                                                 <div class="input-group">
-                                                                    <input type="password" class="form-control" id="senha" name="password" value="{{ old('senha') }}"/>
+                                                                    <input type="password" class="form-control" id="senha" autocomplete="off" name="password" value="{{ old('senha') }}"/>
                                                                     <div class="input-group-append" id="olho">
                                                                         <div class="input-group-text"><i class="fa fa-eye"></i></div>
                                                                     </div>
@@ -325,6 +327,110 @@
                                         </div>
 
                                     </div> 
+                                </div>
+
+                                <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
+                                
+                                    <div id="accordion">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h4>
+                                                    <a style="border:none;color: #555;" data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+                                                        <i class="nav-icon fas fa-plus mr-2"></i> Cônjuge
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseFive" class="panel-collapse collapse content_spouse show">
+                                                <div class="card-body">
+                                                    <div class="row mb-2">
+                                                        <div class="col-12 col-md-6 col-lg-3"> 
+                                                            <div class="form-group">
+                                                                <label class="labelforms text-muted"><b>Tipo de Comunhão:</b></label>
+                                                                <select class="form-control" name="tipo_de_comunhao">
+                                                                    <option value="universal" {{ (old('tipo_de_comunhao') == 'universal' ? 'selected' : '') }}>Comunhão Universal de Bens</option>
+                                                                    <option value="parcial" {{ (old('tipo_de_comunhao') == 'parcial' ? 'selected' : '') }}>Comunhão Parcial de Bens</option>
+                                                                    <option value="total" {{ (old('tipo_de_comunhao') == 'total' ? 'selected' : '') }}>Separação Total de Bens</option>
+                                                                    <option value="final" {{ (old('type_of_communion') == 'final' ? 'selected' : '') }}>Participação Final de Aquestos</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-6 col-lg-4"> 
+                                                            <div class="form-group">
+                                                                <label class="labelforms text-muted"><b>*Nome</b></label>
+                                                                <input type="text" class="form-control" placeholder="Nome do Cônjuge" name="nome_conjuje" value="{{ old('nome_conjuje') }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-6 col-lg-3"> 
+                                                            <div class="form-group">
+                                                                <label class="labelforms text-muted"><b>*Data de Nascimento</b></label>
+                                                                <div class="input-group date">
+                                                                    <input type="text" class="form-control datepicker-here" data-language='pt-BR' name="nasc_conjuje" value="{{ old('nasc_conjuje') }}"/>
+                                                                    <div class="input-group-append">
+                                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-6 col-lg-2"> 
+                                                            <div class="form-group">
+                                                                <label class="labelforms text-muted"><b>*Genero</b></label>
+                                                                <select class="form-control" name="genero_conjuje">
+                                                                    <option value="masculino" {{(old('genero_conjuje') == 'masculino' ? 'selected' : '')}}>Masculino</option>
+                                                                    <option value="feminino" {{(old('genero_conjuje') == 'feminino' ? 'selected' : '')}}>Feminino</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>                                                                                                      
+                                                    </div>
+                                                    <div class="row mb-4">
+                                                        <div class="col-12 col-md-6 col-lg-3"> 
+                                                            <div class="form-group">
+                                                                <label class="labelforms text-muted"><b>*CPF</b></label>
+                                                                <input type="text" class="form-control cpfmask" placeholder="CPF do Cônjuge" name="cpf_conjuje" value="{{ old('cpf_conjuje') }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-6 col-lg-3"> 
+                                                            <div class="form-group">
+                                                                <label class="labelforms text-muted"><b>RG</b></label>
+                                                                <input type="text" class="form-control" placeholder="RG do Cônjuge" name="rg_conjuje" value="{{ old('rg_conjuje') }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-6 col-lg-3"> 
+                                                            <div class="form-group">
+                                                                <label class="labelforms text-muted"><b>Órgão Expedidor</b></label>
+                                                                <input type="text" class="form-control" placeholder="Expedição" name="rg_expedicao_conjuje" value="{{ old('rg_expedicao_conjuje') }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-6 col-lg-3"> 
+                                                            <div class="form-group">
+                                                                <label class="labelforms text-muted"><b>Naturalidade</b></label>
+                                                                <input type="text" class="form-control" placeholder="Cidade de Nascimento do Cônjuge" name="naturalidade_conjuje" value="{{ old('naturalidade_conjuje') }}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-2">
+                                                        <div class="col-12 col-md-4 col-lg-4"> 
+                                                            <div class="form-group">
+                                                                <label class="labelforms text-muted"><b>Profissão:</b></label>
+                                                                <input type="text" class="form-control" placeholder="Profissão do Cliente" name="profissao_conjuje" value="{{old('profissao_conjuje')}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-4 col-lg-4"> 
+                                                            <div class="form-group">
+                                                                <label class="labelforms text-muted"><b>Renda:</b></label>
+                                                                <input type="text" class="form-control mask-money" placeholder="Valores em Reais" name="renda_conjuje" value="{{old('renda_conjuje')}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-4 col-lg-4"> 
+                                                            <div class="form-group">
+                                                                <label class="labelforms text-muted"><b>Empresa:</b></label>
+                                                                <input type="text" class="form-control" placeholder="Contratante" name="profissao_empresa_conjuje" value="{{old('profissao_empresa_conjuje')}}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 
                                 <div class="tab-pane fade" id="custom-tabs-four-redes" role="tabpanel" aria-labelledby="custom-tabs-four-redes-tab">
@@ -393,7 +499,30 @@
                                 </div>                                
                                 <div class="tab-pane fade" id="custom-tabs-four-permissoes" role="tabpanel" aria-labelledby="custom-tabs-four-permissoes-tab">
                                     <div class="row mb-2 text-muted">
-                                                                                
+                                        <div class="col-sm-12 bg-gray-light mb-3">                                        
+                                            <!-- checkbox -->
+                                            <div class="form-group p-3 mb-0">
+                                                <span class="mr-3"><b>Acesso ao Sistema:</b></span>  
+                                                <div class="form-check d-inline mx-2">
+                                                    <input id="editor" class="form-check-input" type="checkbox" name="editor" {{ (old('editor') == 'on' || old('editor') == true ? 'checked' : '') }}>
+                                                    <label for="editor" class="form-check-label">Editor</label>
+                                                </div>
+                                                <div class="form-check d-inline mx-2">
+                                                    <input id="admin" class="form-check-input" type="checkbox" name="admin" {{ (old('admin') == 'on' || old('admin') == true ? 'checked' : '') }}>
+                                                    <label for="admin" class="form-check-label">Administrativo</label>
+                                                </div>
+                                                <div class="form-check d-inline mx-2">
+                                                    <input id="client" class="form-check-input" type="checkbox"  name="client" {{ (old('client') == 'on' || old('client') == true ? 'checked' : '') }}>
+                                                    <label for="client" class="form-check-label">Cliente</label>
+                                                </div>
+                                                @if(\Illuminate\Support\Facades\Auth::user()->superadmin == 1)
+                                                <div class="form-check d-inline mx-2">
+                                                    <input id="superadmin" class="form-check-input" type="checkbox"  name="superadmin" {{ (old('superadmin') == 'on' || old('superadmin') == true ? 'checked' : '') }}>
+                                                    <label for="superadmin" class="form-check-label">Super Administrador</label>
+                                                </div>
+                                                @endif
+                                            </div>
+                                        </div>                                        
                                     </div>                                   
                                 </div>
                             </div>
@@ -469,7 +598,21 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-            });            
+            }); 
+
+            function normalizeSpouse() {
+                if (typeof ($('select[name="estado_civil"]')) !== 'undefined') {
+                    if ($('select[name="estado_civil"]').val() === 'casado' || $('select[name="estado_civil"]').val() === 'separado') {
+                        $('.content_spouse input, .content_spouse select').prop('disabled', false);
+                    } else {
+                        $('.content_spouse input, .content_spouse select').prop('disabled', true);
+                    }
+                }
+            }
+            normalizeSpouse();
+            $('select[name="estado_civil"]').change(function () {
+                normalizeSpouse();
+            });           
                     
             function readImage() {
                 if (this.files && this.files[0]) {

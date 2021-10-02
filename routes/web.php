@@ -4,8 +4,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\EmailController;
 
 Route::prefix('admin')->middleware('auth')->group( function(){
+
+    /*********************** Email **********************************************/
+    Route::get('email/suporte', [EmailController::class, 'suporte'])->name('email.suporte');
+    Route::match(['post', 'get'], 'email/send', [EmailController::class, 'send'])->name('email.send');
+    Route::post('email/sendEmail', [EmailController::class, 'sendEmail'])->name('email.sendEmail');
+    Route::match(['post', 'get'], 'email/success', [EmailController::class, 'success'])->name('email.success');
 
     /*********************** Usuários *******************************************/
     Route::match(['get', 'post'], 'usuarios/pesquisa', [UserController::class, 'search'])->name('users.search');
