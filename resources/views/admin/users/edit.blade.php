@@ -607,7 +607,21 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-            });            
+            });  
+
+            function normalizeSpouse() {
+                if (typeof ($('select[name="estado_civil"]')) !== 'undefined') {
+                    if ($('select[name="estado_civil"]').val() === 'casado' || $('select[name="estado_civil"]').val() === 'separado') {
+                        $('.content_spouse input, .content_spouse select').prop('disabled', false);
+                    } else {
+                        $('.content_spouse input, .content_spouse select').prop('disabled', true);
+                    }
+                }
+            }
+            normalizeSpouse();
+            $('select[name="estado_civil"]').change(function () {
+                normalizeSpouse();
+            });          
                     
             function readImage() {
                 if (this.files && this.files[0]) {

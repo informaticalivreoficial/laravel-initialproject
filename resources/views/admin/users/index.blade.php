@@ -182,7 +182,7 @@
                 $.ajax({
                     type: 'GET',
                     dataType: 'JSON',
-                    url: '{{-- route('users.deletecli') --}}',
+                    url: "{{ route('users.delete') }}",
                     data: {
                        'id': user_id
                     },
@@ -190,9 +190,9 @@
                         if(data.error){
                             $('.j_param_data').html(data.error);
                             $('#id_user').val(data.id);
-                            $('#frm').prop('action','{{-- route('users.deleteoncli') --}}');
+                            $('#frm').prop('action','{{ route('users.deleteon') }}');
                         }else{
-                            $('#frm').prop('action','{{-- route('users.deleteoncli') --}}');
+                            $('#frm').prop('action','{{ route('users.deleteon') }}');
                         }
                     }
                 });

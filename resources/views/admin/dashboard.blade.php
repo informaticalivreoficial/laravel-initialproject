@@ -26,6 +26,13 @@
 
 @section('content')
 <div class="row">
+    <div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="card card-danger">                
+            <div class="card-body">
+              <canvas id="donutChartusers" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>
+        </div>
+    </div>
     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
         <div class="info-box">
             <span class="info-box-icon bg-teal"><a href="{{--route('admin.imoveis.index')--}}" title="Imóveis"><i class="fa far fa-home"></i></a></span>
@@ -46,9 +53,9 @@
 
             <div class="info-box-content">
                 <span class="info-box-text"><b>Clientes</b></span>
-                <span class="info-box-text">Locadores: </span>
-                <span class="info-box-text">Locatários: </span>
-                <span class="info-box-text">Time: {{-- $time --}}</span>
+                <span class="info-box-text">Ativos: </span>
+                <span class="info-box-text">Inativos: </span>
+                <span class="info-box-text">Time: {{ $time }}</span>
             </div>
             <!-- /.info-box-content -->
         </div>
@@ -89,5 +96,32 @@
 @stop
 
 @section('js')
-    <script>  </script>
+    <script>  
+    $(function (){
+        var donutChartCanvasUsers = $('#donutChartusers').get(0).getContext('2d');
+        var donutDatausers        = {
+            labels: [ 
+                'Clientes Inativos', 
+                'Clientes Ativos',
+                'Time'             
+            ],
+            datasets: [
+                {
+                data: [{{ $usersUnavailable }},{{ $usersAvailable }}, {{ $time }}],
+                    backgroundColor : ['#4BC0C0', '#36A2EB', '#FF6384'],
+                }
+            ]
+            }
+            var donutOptions     = {
+            maintainAspectRatio : false,
+            responsive : true,
+            }
+
+            var donutChart = new Chart(donutChartCanvasUsers, {
+            type: 'doughnut',
+            data: donutDatausers,
+            options: donutOptions      
+            });
+    });    
+    </script>
 @stop

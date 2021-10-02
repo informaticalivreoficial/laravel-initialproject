@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Admin\User as UserRequest;
@@ -11,6 +12,7 @@ use App\Support\Cropper;
 use App\Models\Cidades;
 use App\Models\Estados;
 use App\Models\User;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -94,12 +96,20 @@ class UserController extends Controller
 
     public function update(UserRequest $request, $id)
     {
-        $user = User::where('id', $id)->first();
-
+        $user = User::where('id', $id)->first();       
+        
         $user->setAdminAttribute($request->admin);
         $user->setEditorAttribute($request->editor);
         $user->setClientAttribute($request->client);
         $user->setSuperAdminAttribute($request->superadmin);
+
+        if(Carbon::parse($request->nasc)->age < 18){
+            return redirect()->back()->with(['color' => 'danger', 'message' => 'Data de nascimento inválida!']);
+        }
+
+        if($request->estado_civil == 'separado' || $request->estado_civil == 'casado' && Carbon::parse($request->nasc_conjuje)->age < 18){
+            return redirect()->back()->with(['color' => 'danger', 'message' => 'Data de nascimento do conjuje inválida!']);
+        }
 
         if(!empty($request->file('avatar'))){
             Storage::delete($user->avatar);
@@ -138,5 +148,51 @@ class UserController extends Controller
             'users' => $users,
             'filters' => $filters
         ]);
+    }
+
+    public function delete(Request $request)
+    {
+        $user = User::where('id', $request->id)->first();
+        $nome = getPrimeiroNome(Auth::user()->name);
+        if(!empty($user)){
+            if($user->id == Auth::user()->id){
+                $json = "<b>$nome</b> você não pode excluir sua própria conta!";
+                return response()->json(['error' => $json,'id' => $user->id]);
+            }elseif($user->superadmin == 1){
+                $json = "<b>$nome</b> você não pode excluir um Super Administrador!";
+                return response()->json(['error' => $json,'id' => $user->id]);
+            }elseif($user->admin == 1 && $user->client == 1){
+                $json = "<b>$nome</b> você tem certeza que deseja excluir este Administrador? Ele também é um Cliente";
+                return response()->json(['error' => $json,'id' => $user->id]);
+            }elseif($user->admin == 1){
+                $json = "<b>$nome</b> você tem certeza que deseja excluir um Administrador?";
+                return response()->json(['error' => $json,'id' => $user->id]);
+            }elseif($user->admin == 0 && $user->client == 1){
+                $json = "<b>$nome</b> você tem certeza que deseja excluir este Cliente?";
+                return response()->json(['error' => $json,'id' => $user->id]);
+            }else{
+                return response()->json(['success' => true]);
+            }
+        }
+    }
+
+    public function deleteon(Request $request)
+    {
+        $user = User::where('id', $request->user_id)->first();        
+        if(!empty($user)){
+            $perfil = ($user->admin == '1' && $user->client == '1' ? 'Administrador e Cliente' :
+                      ($user->admin == '1' && $user->client == '0' ? 'Administrador' :
+                      ($user->admin == '0' && $user->client == '1' ? 'Cliente' : 'Cliente')));
+            Storage::delete($user->avatar);
+            Cropper::flush($user->avatar);
+            $user->delete();
+        }
+        if($user->admin == '1' || $user->Editor == '1'){
+            $page = 'team';
+        }else{
+            $page = 'index';
+        }
+        
+        return redirect()->route('users.'.$page)->with(['color' => 'success', 'message' => $perfil.' removido com sucesso!']);
     }
 }
