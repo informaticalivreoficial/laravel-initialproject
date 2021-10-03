@@ -49,4 +49,24 @@ class CatPostController extends Controller
             'categoria' => $categoria,
         ]);
     }
+
+    public function update(CatPostRequest $request, $id)
+    {
+        $categoria = CatPost::where('id', $id)->first();
+        $categoria->fill($request->all());
+
+        $categoria->save();
+        $categoria->setSlug();
+        
+        if($categoria->id_pai != null){
+            return redirect()->route('categorias.edit', [
+                'id' => $categoria->id,
+            ])->with(['color' => 'success', 'message' => 'Sub Categoria atualizada com sucesso!']);
+        }else{
+            return redirect()->route('categorias.edit', [
+                'id' => $categoria->id,
+            ])->with(['color' => 'success', 'message' => 'Categoria atualizada com sucesso!']);
+        }
+        
+    }
 }

@@ -63,6 +63,7 @@ Route::prefix('admin')->middleware('auth')->group( function(){
     /********************* Categorias para Posts *******************************/
     Route::get('categorias/delete', [CatPostController::class, 'delete'])->name('categorias.delete');
     Route::delete('categorias/deleteon', [CatPostController::class, 'deleteon'])->name('categorias.deleteon');
+    Route::put('categorias/posts/{id}', [CatPostController::class, 'update'])->name('categorias.update');
     Route::get('categorias/{id}/edit', [CatPostController::class, 'edit'])->name('categorias.edit');
     Route::get('posts/categorias/create', [CatPostController::class, 'create'])->name('categorias.create');
     Route::post('posts/categorias/store', [CatPostController::class, 'store'])->name('categorias.store');

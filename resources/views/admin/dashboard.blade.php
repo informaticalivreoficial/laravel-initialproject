@@ -26,10 +26,17 @@
 
 @section('content')
 <div class="row">
-    <div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-3">
         <div class="card card-danger">                
             <div class="card-body">
               <canvas id="donutChartusers" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-xs-12 col-sm-6 col-md-6 col-lg-3">
+        <div class="card card-danger">                
+            <div class="card-body">
+              <canvas id="donutChartposts" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
             </div>
         </div>
     </div>
@@ -120,6 +127,33 @@
             var donutChart = new Chart(donutChartCanvasUsers, {
             type: 'doughnut',
             data: donutDatausers,
+            options: donutOptions      
+            });
+    }); 
+
+    $(function (){
+        var donutChartCanvasPosts = $('#donutChartposts').get(0).getContext('2d');
+        var donutDataposts        = {
+            labels: [ 
+                'Artigos', 
+                'Notícias',
+                'Páginas'             
+            ],
+            datasets: [
+                {
+                data: [{{ $postsArtigos }},{{ $postsNoticias }}, {{ $postsPaginas }}],
+                    backgroundColor : ['#4BC0C0', '#36A2EB', '#FF6384'],
+                }
+            ]
+            }
+            var donutOptions     = {
+            maintainAspectRatio : false,
+            responsive : true,
+            }
+
+            var donutChart = new Chart(donutChartCanvasPosts, {
+            type: 'doughnut',
+            data: donutDataposts,
             options: donutOptions      
             });
     });    

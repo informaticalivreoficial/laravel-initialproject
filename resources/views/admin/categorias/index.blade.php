@@ -40,7 +40,7 @@
                             <th>Categoria</th>
                             <th class="text-center">Exibir?</th>
                             <th class="text-center">Criada em</th>
-                            <th class="text-center">Tags</th>
+                            <th class="text-center">Tipo</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -50,10 +50,7 @@
                             <td><img src="{{url(asset('backend/assets/images/seta.png'))}}"/> <b>{{$categoria->titulo}}</b></td>
                             <td class="text-center"> --- </td>
                             <td class="text-center">{{$categoria->created_at}}</td>
-                            <td class="text-center">
-                                @php $categoria->tags = ($categoria->tags != null ? url(asset('backend/assets/images/ok.png')) : url(asset('backend/assets/images/no.png'))); @endphp
-                                <img src="{{$categoria->tags}}"/>
-                            </td>
+                            <td class="text-center">{{$categoria->tipo}}</td>
                             <td>
                                 <a href="{{route('categorias.create', ['catpai' => $categoria->id])}}" class="btn btn-xs btn-success">Criar Subcategoria</a>
                                 <a href="{{ route('categorias.edit', [ 'id' => $categoria->id]) }}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
@@ -68,10 +65,7 @@
                                     <td><img src="{{url(asset('backend/assets/images/setaseta.png'))}}"/> {{$subcategoria->titulo}}</td>
                                     <td class="text-center"></td>
                                     <td class="text-center">{{$subcategoria->created_at}}</td>
-                                    <td class="text-center">
-                                        @php $subcategoria->tags = ($subcategoria->tags != null ? url(asset('backend/assets/images/ok.png')) : url(asset('backend/assets/images/no.png'))); @endphp
-                                        <img src="{{$subcategoria->tags}}"/>
-                                    </td>
+                                    <td class="text-center">{{$subcategoria->tipo}}</td>
                                     <td>
                                         <a href="{{ route('categorias.edit', [ 'id' => $subcategoria->id ]) }}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
                                         <button type="button" class="btn btn-xs btn-danger text-white j_modal_btn" data-id="{{$subcategoria->id}}" data-toggle="modal" data-target="#modal-default">
