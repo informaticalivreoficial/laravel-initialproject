@@ -124,7 +124,7 @@ class UserController extends Controller
         }
 
         if(!$user->save()){
-            return redirect()->back()->withInput()->withErrors();
+            return redirect()->back()->withInput()->withErrors('erro');
         }
 
         return redirect()->route('users.edit', $user->id)->with([

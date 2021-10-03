@@ -255,7 +255,32 @@ return [
                 ]
             ]
         ],
-              
+        [
+            'text' => 'Posts',            
+            'icon' => 'fas fa-fw fa-pen',
+            'submenu' => [
+                [
+                    'text' => 'Cadastrar Post',
+                    'url'  => 'admin/posts/create',
+                ],
+                [
+                    'text' => 'Artigos',
+                    'url'  => 'admin/posts/artigos',
+                ],
+                [
+                    'text' => 'Notícias',
+                    'url'  => 'admin/posts/noticias',
+                ],
+                [
+                    'text' => 'Páginas',
+                    'url'  => 'admin/posts/paginas',
+                ],
+                [
+                    'text' => 'Categorias',
+                    'url'  => 'admin/posts/categorias',
+                ]
+            ]
+        ],      
         
     ],
 
@@ -361,6 +386,26 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                ],
+            ],
+        ],
+        'Summernote' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/summernote/summernote-bs4.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/summernote/lang/summernote-pt-BR.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/summernote/summernote-bs4.min.css',
                 ],
             ],
         ],
