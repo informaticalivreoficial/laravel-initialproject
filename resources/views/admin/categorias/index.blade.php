@@ -20,7 +20,7 @@
 
     <div class="card">
         <div class="card-header text-right">
-            <a href="{{route('categorias.create')}}" class="btn btn-secondary text-white">Cadastrar Categoria</a>
+            <a href="{{route('categorias.create',['catpai' => 'null'])}}" class="btn btn-default"><i class="fas fa-plus mr-2"></i> Cadastrar Categoria</a>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -55,9 +55,9 @@
                                 <img src="{{$categoria->tags}}"/>
                             </td>
                             <td>
-                                <a href="{{route('admin.categorias.categoriacreate', ['tipo' => $secao, 'catpai' => $categoria->id])}}" class="btn btn-sm btn-success">Criar Subcategoria</a>
-                                <a href="{{ route('admin.categorias.edit', [ 'categoria' => $categoria->id]) }}" class="btn btn-sm btn-default"><i class="fas fa-pen"></i></a>
-                                <button type="button" class="btn btn-sm btn-danger text-white j_modal_btn" data-id="{{$categoria->id}}" data-toggle="modal" data-target="#modal-default">
+                                <a href="{{route('categorias.create', ['catpai' => $categoria->id])}}" class="btn btn-xs btn-success">Criar Subcategoria</a>
+                                <a href="{{ route('categorias.edit', [ 'id' => $categoria->id]) }}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
+                                <button type="button" class="btn btn-xs btn-danger text-white j_modal_btn" data-id="{{$categoria->id}}" data-toggle="modal" data-target="#modal-default">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
@@ -73,8 +73,8 @@
                                         <img src="{{$subcategoria->tags}}"/>
                                     </td>
                                     <td>
-                                        <a href="{{ route('admin.categorias.edit', [ 'categoria' => $subcategoria->id ]) }}" class="btn btn-sm btn-default"><i class="fas fa-pen"></i></a>
-                                        <button type="button" class="btn btn-sm btn-danger text-white j_modal_btn" data-id="{{$subcategoria->id}}" data-toggle="modal" data-target="#modal-default">
+                                        <a href="{{ route('categorias.edit', [ 'id' => $subcategoria->id ]) }}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
+                                        <button type="button" class="btn btn-xs btn-danger text-white j_modal_btn" data-id="{{$subcategoria->id}}" data-toggle="modal" data-target="#modal-default">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </td>
@@ -143,7 +143,7 @@
                 $.ajax({
                     type: 'GET',
                     dataType: 'JSON',
-                    url: '{{ route('admin.categorias.delete') }}',
+                    url: "{{ route('categorias.delete') }}",
                     data: {
                        'id': categoria_id
                     },
@@ -152,14 +152,14 @@
                             $('.onoff').attr('disabled', false);
                             $('.j_param_data').html(data.erroron);
                             $('#id_categoria').val(data.id);
-                            $('#frm').prop('action','{{ route('admin.categorias.deleteon') }}');
+                            $('#frm').prop('action','{{ route('categorias.deleteon') }}');
                         }else if(data.error){
                             $('.onoff').attr('disabled', true);
                             $('.j_param_data').html(data.error);
                         }else{
                             $('.onoff').attr('disabled', false);
                             $('#id_categoria').val(data.id);
-                            $('#frm').prop('action','{{ route('admin.categorias.deleteon') }}');
+                            $('#frm').prop('action','{{ route('categorias.deleteon') }}');
                         }
                     }
                 });
