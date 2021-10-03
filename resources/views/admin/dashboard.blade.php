@@ -142,7 +142,7 @@
             datasets: [
                 {
                 data: [{{ $postsArtigos }},{{ $postsNoticias }}, {{ $postsPaginas }}],
-                    backgroundColor : ['#4BC0C0', '#36A2EB', '#FF6384'],
+                    backgroundColor : ['#018577', '#419B45', '#BAC431'],
                 }
             ]
             }

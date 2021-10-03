@@ -50,11 +50,7 @@ if($catpai != 'null'){
                     <div class="card-body">
                         <form action="{{ route('categorias.store') }}" method="post" autocomplete="off">
                         @csrf                        
-                        @if(!empty($catpai) && $catpai == 'null')   
-                            <input type="hidden" name="id_pai" value=""/>
-                        @else                         
-                            <input type="hidden" name="id_pai" value="{{$catpai}}"/>                        
-                        @endif                                               
+                                                                      
                         <div class="row mb-4">
                             <div class="col-4">
                                 <div class="form-group">
@@ -62,17 +58,30 @@ if($catpai != 'null'){
                                     <input class="form-control" name="titulo" placeholder="Título da Categoria:" value="{{old('titulo')}}">
                                 </div>
                             </div>
-                            <div class="col-2">
-                                <div class="form-group">
-                                    <label class="labelforms"><b>*Tipo:</b></label>
-                                    <select name="tipo" class="form-control tipo_post">
-                                        <option value=""> Selecione </option>
-                                        <option value="artigo" {{ (old('artigo') == '1' ? 'selected' : '') }}>Artigo</option>
-                                        <option value="noticia" {{ (old('noticia') == '0' ? 'selected' : '') }}>Notícia</option>
-                                        <option value="pagina" {{ (old('pagina') == '0' ? 'selected' : '') }}>Página</option>
-                                    </select>
+                            @if($catpai == null)   
+                                <input type="hidden" name="id_pai" value=""/>
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <label class="labelforms"><b>*Tipo:</b></label>
+                                        <select name="tipo" class="form-control tipo_post">
+                                            <option value=""> Selecione </option>
+                                            <option value="artigo" {{ (old('artigo') == '1' ? 'selected' : '') }}>Artigo</option>
+                                            <option value="noticia" {{ (old('noticia') == '0' ? 'selected' : '') }}>Notícia</option>
+                                            <option value="pagina" {{ (old('pagina') == '0' ? 'selected' : '') }}>Página</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                            @else                         
+                                <input type="hidden" name="id_pai" value="{{$catpai->id}}"/>                        
+                                <input type="hidden" name="tipo" value="{{$catpai->tipo}}"/> 
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <label class="labelforms"><b>*Tipo:</b></label>
+                                        <input class="form-control" name="tipo" value="{{$catpai->tipo}}" disabled>
+                                    </div>
+                                </div>                       
+                            @endif 
+                            
                             <div class="col-3">
                                 <div class="form-group">
                                     <label class="labelforms"><b>Exibir no site?</b></label>

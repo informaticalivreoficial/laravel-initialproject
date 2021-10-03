@@ -23,13 +23,36 @@ class CatPost extends Model
     ];
 
     /**
-     * A Category has many child categories
-     *
-     * @return void
+     * Scopes
+     */
+    public function scopeAvailable($query)
+    {
+        return $query->where('status', 1);
+    }
+
+    public function scopeUnavailable($query)
+    {
+        return $query->where('status', 0);
+    }
+
+    /**
+     * Relacionamentos
      */
     public function children()
     {
         return $this->hasMany(CatPost::class, 'id_pai', 'id');
+    }
+
+    /**
+     * Accerssors and Mutators
+     */
+    public function getStatusAttribute($value)
+    {
+        if(empty($value)){
+            return null;
+        }
+
+        return ($value == '1' ? 'Sim' : 'Não');
     }
 
     public function setStatusAttribute($value)

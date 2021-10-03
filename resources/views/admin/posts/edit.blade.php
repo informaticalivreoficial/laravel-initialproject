@@ -1,27 +1,47 @@
-@extends('admin.master.master')
+@extends('adminlte::page')
+
+@section('title', "Editar $tituloPagina")
+
+@php
+$config = [
+    "height" => "300",
+    "fontSizes" => ['8', '9', '10', '11', '12', '14', '18'],
+    "lang" => 'pt-BR',
+    "toolbar" => [
+        // [groupName, [list of button]]
+        ['style', ['style']],
+        ['fontname', ['fontname']],
+        ['fontsize', ['fontsize']],
+        ['style', ['bold', 'italic', 'underline', 'clear']],
+        //['font', ['strikethrough', 'superscript', 'subscript']],        
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['height', ['height']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video','hr']],
+        ['view', ['fullscreen', 'codeview']],
+    ],
+]
+@endphp
+
+
+
+@section('content_header')
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <h1>Editar {{$tituloPagina}}</h1>
+    </div>
+    <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{{route('home')}}">Painel de Controle</a></li>
+            <li class="breadcrumb-item"><a href="{{route('posts.'.$tipo)}}">{{$tituloPagina}}s</a></li>
+            <li class="breadcrumb-item active">Editar {{$tituloPagina}}</li>
+        </ol>
+    </div>
+</div>
+@stop
 
 @section('content')
-<!-- Content Header (Page header) -->
-<section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Editar Artigo</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Painel de Controle</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('admin.artigos.index')}}">Artigos</a></li>
-                    <li class="breadcrumb-item active">Editar Artigo</li>
-                </ol>
-            </div>
-        </div>
-    </div><!-- /.container-fluid -->
-</section>
-
-<!-- Main content -->
-<section class="content text-muted">
-    <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                @if($errors->all())
@@ -54,10 +74,9 @@
                     </div>
                     
                     <div class="card-body">
-                        <form action="{{ route('admin.artigos.update', ['artigo' => $post->id]) }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('posts.update', ['id' => $post->id]) }}" method="post" enctype="multipart/form-data" autocomplete="off">
                         @csrf
                         @method('PUT')
-                        <input type="hidden" name="tipo" value="artigo"/> 
                         <div class="tab-content" id="custom-tabs-four-tabContent">
                             <div class="tab-pane fade show active" id="custom-tabs-conteudo" role="tabpanel" aria-labelledby="custom-tabs-conteudo-tab">
                                                        
@@ -90,14 +109,24 @@
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <div class="col-2">
+                                        <div class="form-group">
+                                            <label class="labelforms"><b>*Tipo:</b></label>
+                                            <select name="tipo" class="form-control tipo_post">
+                                                <option value=""> Selecione </option>
+                                                <option value="artigo" {{ (old('artigo') == '1' ? 'selected' : ($post->tipo == 'artigo' ? 'selected' : '')) }}>Artigo</option>
+                                                <option value="noticia" {{ (old('noticia') == '0' ? 'selected' : ($post->tipo == 'noticia' ? 'selected' : '')) }}>Notícia</option>
+                                                <option value="pagina" {{ (old('pagina') == '0' ? 'selected' : ($post->tipo == 'pagina' ? 'selected' : '')) }}>Página</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="col-4">
                                         <div class="form-group">
-                                            <label class="labelforms"><b>Categoria:</b></label>
-                                            <select name="categoria" class="form-control">
-                                                @if(!empty($categorias) && $categorias->count() > 0)
-                                                    <option value="">Selecione a Categoria</option>                                                    
+                                            <label class="labelforms"><b>*Categoria:</b> <a style="font-size:11px;" href="{{route('categorias.index')}}">(Criar categoria)</a></label>
+                                            <select name="categoria" class="form-control categoria">
+                                                @if(!empty($categorias) && !empty($post->categoria))
                                                     @foreach($categorias as $categoria)
-                                                        @if($categoria->tipo == 'artigo')
+                                                        @if($categoria->tipo == $post->tipo)
                                                             <optgroup label="{{ $categoria->titulo }}">  
                                                                 @if($categoria->children)
                                                                     @foreach($categoria->children as $subcategoria)
@@ -109,11 +138,11 @@
                                                     @endforeach
                                                 @else
                                                     <option value="">Cadastre Categorias</option>
-                                                @endif                                                
+                                                @endif                                             
                                             </select>
                                         </div>
-                                    </div>
-                                    <div class="col-4">
+                                    </div>                                    
+                                    <div class="col-3">
                                         <div class="form-group">
                                             <label class="labelforms"><b>Permitir Comentários:</b></label>
                                             <select name="comentarios" class="form-control">
@@ -122,12 +151,12 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-3">
                                         <div class="form-group">
                                             <label class="labelforms"><b>Agendar Publicação:</b></label>
-                                            <div class="input-group date" id="publish" data-target-input="nearest">
-                                                <input type="text" class="form-control datetimepicker-input" data-target="#publish" name="publish_at" value="{{ old('publish_at') ?? $post->publish_at }}"/>
-                                                <div class="input-group-append" data-target="#publish" data-toggle="datetimepicker">
+                                            <div class="input-group date">
+                                                <input type="text" class="form-control datepicker-here" data-language='pt-BR' name="publish_at" value="{{ old('publish_at') ?? $post->publish_at }}"/>
+                                                <div class="input-group-append">
                                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                 </div>
                                             </div>
@@ -143,7 +172,7 @@
                                     </div>
                                     <div class="col-12">   
                                         <label class="labelforms"><b>Conteúdo:</b></label>
-                                        <textarea id="compose-textarea" name="content" cols="30" rows="10" placeholder="Escreva o conteúdo do artigo aqui">{{ old('content') ?? $post->content }}</textarea>                                                      
+                                        <x-adminlte-text-editor name="content" v placeholder="Conteúdo do post..." :config="$config">{{ old('content') ?? $post->content }}</x-adminlte-text-editor>                                                      
                                     </div>
                                 </div>
                             </div> 
@@ -167,8 +196,8 @@
                                                 <img src="{{ $image->url_cropped }}" alt="">
                                                 </a>
                                                 <div class="property_image_actions">
-                                                    <a href="javascript:void(0)" class="btn btn-xs {{ ($image->cover == true ? 'btn-success' : 'btn-default') }} icon-notext image-set-cover px-2" data-action="{{ route('admin.artigos.imageSetCover', ['image' => $image->id]) }}"><i class="nav-icon fas fa-check"></i> </a>
-                                                    <a href="javascript:void(0)" class="btn btn-danger btn-xs image-remove px-2" data-action="{{ route('admin.artigos.imageRemove', ['image' => $image->id]) }}"><i class="nav-icon fas fa-times"></i> </a>
+                                                    <a href="javascript:void(0)" class="btn btn-xs {{ ($image->cover == true ? 'btn-success' : 'btn-default') }} icon-notext image-set-cover px-2" data-action="{{ route('posts.imageSetCover', ['image' => $image->id]) }}"><i class="nav-icon fas fa-check"></i> </a>
+                                                    <a href="javascript:void(0)" class="btn btn-danger btn-xs image-remove px-2" data-action="{{ route('posts.imageRemove', ['image' => $image->id]) }}"><i class="nav-icon fas fa-times"></i> </a>
                                                 </div>
                                             </div>
                                             @endforeach
@@ -190,11 +219,86 @@
                 
             </div>
         </div>
-    </div><!-- /.container-fluid -->
-</section>
-@endsection
+        @stop
+
+@section('css')
+    <!--tags input-->
+    <link rel="stylesheet" href="{{url('backend/plugins/jquery-tags-input/jquery.tagsinput.css')}}" />
+    <link href="{{url(asset('backend/plugins/airdatepicker/css/datepicker.min.css'))}}" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        div.tagsinput span.tag {
+            background: #65CEA7 !important;
+            border-color: #65CEA7;
+            color: #fff;
+            border-radius: 15px;
+            -webkit-border-radius: 15px;
+            padding: 3px 10px;
+        }
+        div.tagsinput span.tag a {
+            color: #43886e;    
+        }
+        /* Lista de ImÃ³veis */
+        img {
+            max-width: 100%;
+        }
+        .realty_list_item  {    
+            border: 1px solid #F3F3F3;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+        }
+
+        .border-item-imovel{
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            border: 1px solid #F3F3F3;  
+            background-color: #F3F3F3;
+        }
+       
+        .property_image, .content_image {
+            width: 100%;
+            flex-basis: 100%;
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+        .property_image .property_image_item, .content_image .property_image_item {
+            flex-basis: calc(25% - 20px) !important;
+            margin-bottom: 20px;
+            margin-right: 20px;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .property_image .property_image_item img, .content_image .property_image_item img {
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+        }
+        .property_image .property_image_item .property_image_actions, .content_image .property_image_item .property_image_actions {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .embed {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+        }
+    </style>
+@stop
 
 @section('js')
+<!--tags input-->
+<script src="{{url('backend/plugins/jquery-tags-input/jquery.tagsinput.js')}}"></script>
+<script src="{{url(asset('backend/plugins/airdatepicker/js/datepicker.min.js'))}}"></script>
+<script src="{{url(asset('backend/plugins/airdatepicker/js/i18n/datepicker.pt-BR.js'))}}"></script>    
     <script>
         $(function () {
             
@@ -202,13 +306,42 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-            });
-            
-            //Date range picker
-            $('#publish').datetimepicker({
-                format: 'DD/MM/YYYY',
-                locale: 'pt-br'
-            });  
+            });     
+
+            // Função para chamar as categorias do Post            
+
+            $('.tipo_post').on('change', function (){
+                var categoria = this.value;
+
+                $.ajax({
+                    url: "{{route('posts.categoriaList')}}",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        categoria_tipo: categoria,
+                        _token: '{{csrf_token()}}'
+                    },
+                    beforeSend: function (){
+                        $('.categoria').html('Carregando...');
+                    },
+                    success: function (retorno){
+                        if(retorno.data.length !== 0){
+                            $('.categoria').html('<option value="">Selecione a Categoria</option>');
+                            $.each(retorno.data, function (key, value) {
+                                $(".categoria").append('<optgroup label="' + value.catTitulo + '">'
+                                + '<option value="'+ value.subcategory.id +'">'+ value.subcategory.titulo +'</option>'  
+                                + '</optgroup>');
+                            });
+                        }else{
+                            $('.categoria').html('<option value="">Cadastre uma categoria!</option>');
+                        }                       
+                    },
+                    complete: function (){
+                        $('.categoria').attr('disabled', false);
+                    }
+                });
+            });       
+              
             
             $('input[name="files[]"]').change(function (files) {
 
@@ -231,8 +364,7 @@
                     };
                     reader.readAsDataURL(value);
                 });
-            });
-            
+            });            
             
             
             $('.image-set-cover').click(function (event) {

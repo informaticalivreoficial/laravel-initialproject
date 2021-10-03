@@ -58,17 +58,27 @@ if($categoria->id_pai != null){
                                     <input class="form-control" name="titulo" placeholder="Título da Categoria" value="{{old('titulo') ?? $categoria->titulo}}">
                                 </div>
                             </div>
-                            <div class="col-2">
-                                <div class="form-group">
-                                    <label class="labelforms"><b>*Tipo:</b></label>
-                                    <select name="tipo" class="form-control tipo_post">
-                                        <option value=""> Selecione </option>
-                                        <option value="artigo" {{ (old('artigo') == '1' ? 'selected' : ($categoria->tipo == 'artigo' ? 'selected' : '')) }}>Artigo</option>
-                                        <option value="noticia" {{ (old('noticia') == '0' ? 'selected' : ($categoria->tipo == 'noticia' ? 'selected' : '')) }}>Notícia</option>
-                                        <option value="pagina" {{ (old('pagina') == '0' ? 'selected' : ($categoria->tipo == 'pagina' ? 'selected' : '')) }}>Página</option>
-                                    </select>
+                            @if(!empty($catpai) && $categoria->id_pai != null)
+                                <input type="hidden" name="tipo" value="{{$catpai->tipo}}"/> 
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <label class="labelforms"><b>*Tipo:</b></label>
+                                        <input class="form-control" name="tipo" value="{{$catpai->tipo}}" disabled>
+                                    </div>
                                 </div>
-                            </div>
+                            @else
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <label class="labelforms"><b>*Tipo:</b></label>
+                                        <select name="tipo" class="form-control tipo_post">
+                                            <option value=""> Selecione </option>
+                                            <option value="artigo" {{ (old('artigo') == '1' ? 'selected' : ($categoria->tipo == 'artigo' ? 'selected' : '')) }}>Artigo</option>
+                                            <option value="noticia" {{ (old('noticia') == '0' ? 'selected' : ($categoria->tipo == 'noticia' ? 'selected' : '')) }}>Notícia</option>
+                                            <option value="pagina" {{ (old('pagina') == '0' ? 'selected' : ($categoria->tipo == 'pagina' ? 'selected' : '')) }}>Página</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            @endif                            
                             <div class="col-3">
                                 <div class="form-group">
                                     <label class="labelforms"><b>Exibir no site?</b></label>

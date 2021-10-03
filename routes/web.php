@@ -48,6 +48,14 @@ Route::group(['namespace' => 'Web', 'as' => 'web.'], function () {
     Route::get('/blog/categoria/{slug}', 'WebController@categoria')->name('blog.categoria');
     Route::get('/blog/artigos', 'WebController@artigos')->name('blog.artigos');
 
+    /****************************** Notícias *******************************************/
+    Route::get('/noticia/{slug}', 'WebController@noticia')->name('noticia');
+    Route::get('/noticias', 'WebController@noticias')->name('noticias');
+
+    /****************************** Páginas *******************************************/
+    Route::get('/pagina/{slug}', 'WebController@pagina')->name('pagina');
+    Route::get('/paginas', 'WebController@paginas')->name('paginas');
+
     /** Pesquisa */
     Route::match(['post', 'get'], '/pesquisa', 'WebController@pesquisa')->name('pesquisa');
 
@@ -65,12 +73,12 @@ Route::prefix('admin')->middleware('auth')->group( function(){
     Route::delete('categorias/deleteon', [CatPostController::class, 'deleteon'])->name('categorias.deleteon');
     Route::put('categorias/posts/{id}', [CatPostController::class, 'update'])->name('categorias.update');
     Route::get('categorias/{id}/edit', [CatPostController::class, 'edit'])->name('categorias.edit');
-    Route::get('posts/categorias/create', [CatPostController::class, 'create'])->name('categorias.create');
+    Route::match(['post', 'get'],'posts/categorias/create/{catpai}', [CatPostController::class, 'create'])->name('categorias.create');
     Route::post('posts/categorias/store', [CatPostController::class, 'store'])->name('categorias.store');
     Route::get('posts/categorias', [CatPostController::class, 'index'])->name('categorias.index');
 
     /********************** Blog ************************************************/
-    Route::get('posts/set-status', [PostController::class, 'postSetStatus'])->name('posts.artigoSetStatus');
+    Route::get('posts/set-status', [PostController::class, 'postSetStatus'])->name('posts.postSetStatus');
     Route::get('posts/delete', [PostController::class, 'delete'])->name('posts.delete');
     Route::delete('posts/deleteon', [PostController::class, 'deleteon'])->name('posts.deleteon');
     Route::post('posts/image-set-cover', [PostController::class, 'imageSetCover'])->name('posts.imageSetCover');
@@ -80,7 +88,9 @@ Route::prefix('admin')->middleware('auth')->group( function(){
     Route::get('posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::post('posts/store', [PostController::class, 'store'])->name('posts.store');
     Route::post('posts/categoriaList', [PostController::class, 'categoriaList'])->name('posts.categoriaList');
-    Route::get('posts', [PostController::class, 'index'])->name('posts.index');
+    Route::get('posts/artigos', [PostController::class, 'index'])->name('posts.artigos');
+    Route::get('posts/noticias', [PostController::class, 'index'])->name('posts.noticias');
+    Route::get('posts/paginas', [PostController::class, 'index'])->name('posts.paginas');
 
     /*********************** Email **********************************************/
     Route::get('email/suporte', [EmailController::class, 'suporte'])->name('email.suporte');

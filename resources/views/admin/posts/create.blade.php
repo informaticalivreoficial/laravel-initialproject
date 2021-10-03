@@ -123,7 +123,7 @@ $config = [
                                     </div>
                                     <div class="col-4">
                                         <div class="form-group">
-                                            <label class="labelforms"><b>*Categoria:</b> <a style="font-size:11px;" href="{{route('categorias.create')}}">(Criar categoria)</a></label>
+                                            <label class="labelforms"><b>*Categoria:</b> <a style="font-size:11px;" href="{{route('categorias.index')}}">(Criar categoria)</a></label>
                                             <select name="categoria" class="form-control categoria">
                                                 <option value="">Selecione o Tipo</option>                                               
                                             </select>

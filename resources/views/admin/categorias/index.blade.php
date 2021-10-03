@@ -46,9 +46,9 @@
                     </thead>
                     <tbody> 
                         @foreach($categorias as $categoria)                        
-                        <tr style="{{ ($categoria->status == '1' ? '' : 'background: #fffed8 !important;')  }}">                            
+                        <tr style="{{ ($categoria->status == 'Sim' ? '' : 'background: #fffed8 !important;')  }}">                            
                             <td><img src="{{url(asset('backend/assets/images/seta.png'))}}"/> <b>{{$categoria->titulo}}</b></td>
-                            <td class="text-center"> --- </td>
+                            <td class="text-center"> ---- </td>
                             <td class="text-center">{{$categoria->created_at}}</td>
                             <td class="text-center">{{$categoria->tipo}}</td>
                             <td>
@@ -63,7 +63,7 @@
                                 @foreach($categoria->children as $subcategoria)                        
                                 <tr style="">                            
                                     <td><img src="{{url(asset('backend/assets/images/setaseta.png'))}}"/> {{$subcategoria->titulo}}</td>
-                                    <td class="text-center"></td>
+                                    <td class="text-center">{{$subcategoria->status}}</td>
                                     <td class="text-center">{{$subcategoria->created_at}}</td>
                                     <td class="text-center">{{$subcategoria->tipo}}</td>
                                     <td>
@@ -100,7 +100,6 @@
             @csrf
             @method('DELETE')
             <input id="id_categoria" name="categoria_id" type="hidden" value=""/>
-            <input name="tipo" type="hidden" value="artigo"/>
                 <div class="modal-header">
                     <h4 class="modal-title">Remover Categoria!</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">

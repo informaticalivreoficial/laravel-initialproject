@@ -1,16 +1,16 @@
 @extends('adminlte::page')
 
-@section('title', 'Gerenciar Artigos')
+@section('title', "Gerenciar $tituloPagina")
 
 @section('content_header')
 <div class="row mb-2">
     <div class="col-sm-6">
-        <h1><i class="fas fa-search mr-2"></i> Artigos</h1>
+        <h1><i class="fas fa-search mr-2"></i> {{$tituloPagina}}</h1>
     </div>
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">                    
             <li class="breadcrumb-item"><a href="{{route('home')}}">Painel de Controle</a></li>
-            <li class="breadcrumb-item active">Artigos</li>
+            <li class="breadcrumb-item active">{{$tituloPagina}}</li>
         </ol>
     </div>
 </div>
@@ -19,7 +19,7 @@
 @section('content')
     <div class="card">
         <div class="card-header text-right">
-            <a href="{{route('artigos.create')}}" class="btn btn-default"><i class="fas fa-plus mr-2"></i> Cadastrar Novo</a>
+            <a href="{{route('posts.create')}}" class="btn btn-default"><i class="fas fa-plus mr-2"></i> Cadastrar Novo</a>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -47,7 +47,7 @@
                         @foreach($posts as $post)                        
                         <tr style="{{ ($post->status == '1' ? '' : 'background: #fffed8 !important;')  }}">                            
                             <td class="text-center">
-                                <a href="{{ $post->nocover() }}" data-title="{{$post->titulo}}" data-gallery="property-gallery" data-toggle="lightbox">
+                                <a href="{{ $post->nocover() }}" data-title="{{$post->titulo}}" data-toggle="lightbox">
                                     <img width="60" alt="{{$post->titulo}}" src="{{$post->cover()}}">
                                 </a>
                             </td>
@@ -56,8 +56,8 @@
                             <td class="text-center">{{$post->views}}</td>
                             <td>
                                 <input type="checkbox" data-onstyle="success" data-offstyle="warning" data-size="mini" class="toggle-class" data-id="{{ $post->id }}" data-toggle="toggle" data-style="slow" data-on="<i class='fas fa-check'></i>" data-off="<i style='color:#fff !important;' class='fas fa-exclamation-triangle'></i>" {{ $post->status == true ? 'checked' : ''}}>
-                                <a href="{{ route('artigos.edit', [ 'artigo' => $post->id ]) }}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
-                                <a target="_blank" href="{{route('web.blog.artigo',['slug' => $post->slug])}}" class="btn btn-xs btn-info text-white"><i class="fas fa-search"></i></a>
+                                <a href="{{ route('posts.edit', [ 'id' => $post->id ]) }}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>
+                                <a target="_blank" href="{{route('web.'.$linkView,['slug' => $post->slug])}}" class="btn btn-xs btn-info text-white"><i class="fas fa-search"></i></a>
                                 <button type="button" class="btn btn-xs btn-danger text-white j_modal_btn" data-id="{{$post->id}}" data-toggle="modal" data-target="#modal-default"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>                            
@@ -85,9 +85,9 @@
             <form id="frm" action="" method="post">            
             @csrf
             @method('DELETE')
-            <input id="id_artigo" name="artigo_id" type="hidden" value=""/>
+            <input id="id_post" name="post_id" type="hidden" value=""/>
                 <div class="modal-header">
-                    <h4 class="modal-title">Remover Artigo!</h4>
+                    <h4 class="modal-title">Remover Post!</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -107,13 +107,14 @@
 </div>
 @endsection
 
+
 @section('css')
-<link rel="stylesheet" href="{{url(asset('backend/plugins/ekko-lightbox/ekko-lightbox.css'))}}">
+
 <link href="{{url(asset('backend/plugins/bootstrap-toggle/bootstrap-toggle.min.css'))}}" rel="stylesheet">
 @stop
 
 @section('js')
-<script src="{{url(asset('backend/plugins/ekko-lightbox/ekko-lightbox.min.js'))}}"></script>
+
 <script src="{{url(asset('backend/plugins/bootstrap-toggle/bootstrap-toggle.min.js'))}}"></script>
     <script>
        $(function () {
@@ -126,22 +127,22 @@
             
             //FUNÇÃO PARA EXCLUIR
             $('.j_modal_btn').click(function() {
-                var artigo_id = $(this).data('id');
+                var post_id = $(this).data('id');
                 
                 $.ajax({
                     type: 'GET',
                     dataType: 'JSON',
-                    url: '{{ route('artigos.delete') }}',
+                    url: "{{ route('posts.delete') }}",
                     data: {
-                       'id': artigo_id
+                       'id': post_id
                     },
                     success:function(data) {
                         if(data.error){
                             $('.j_param_data').html(data.error);
-                            $('#id_artigo').val(data.id);
-                            $('#frm').prop('action','{{ route('artigos.deleteon') }}');
+                            $('#id_post').val(data.id);
+                            $('#frm').prop('action','{{ route('posts.deleteon') }}');
                         }else{
-                            $('#frm').prop('action','{{ route('artigos.deleteon') }}');
+                            $('#frm').prop('action','{{ route('posts.deleteon') }}');
                         }
                     }
                 });
@@ -161,14 +162,14 @@
             
             $('.toggle-class').on('change', function() {
                 var status = $(this).prop('checked') == true ? 1 : 0;
-                var artigo_id = $(this).data('id');
+                var post_id = $(this).data('id');
                 $.ajax({
                     type: 'GET',
                     dataType: 'JSON',
-                    url: '{{ route('artigos.artigoSetStatus') }}',
+                    url: '{{ route('posts.postSetStatus') }}',
                     data: {
                         'status': status,
-                        'id': artigo_id
+                        'id': post_id
                     },
                     success:function(data) {
                         
