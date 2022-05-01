@@ -115,8 +115,5 @@ Route::prefix('admin')->middleware('auth')->group( function(){
     Route::get('/', [AdminController::class, 'home'])->name('home');
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes();
