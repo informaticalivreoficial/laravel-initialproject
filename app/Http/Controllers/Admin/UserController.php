@@ -12,14 +12,21 @@ use App\Support\Cropper;
 use App\Models\Cidades;
 use App\Models\Estados;
 use App\Models\User;
+use App\Services\UserService;
 use Carbon\Carbon;
 
 class UserController extends Controller
 {
+    protected $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function index()
     {
-        $users = User::orderBy('created_at', 'DESC')->orderBy('status', 'ASC')->where('client', '1')->paginate(25);
-
+        $users = $this->userService->getUsers();
         return view('admin.users.index',[
             'users' => $users
         ]);
@@ -27,7 +34,7 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::where('id', $id)->first();
+        $user = $this->userService->getUser($id);
         return view('admin.users.view',[
             'user' => $user
         ]);
@@ -35,18 +42,16 @@ class UserController extends Controller
 
     public function team()
     {
-        $users = User::where('admin', '=', '1')->orWhere('editor', '=', '1')->paginate(12);
+        $team = $this->userService->getTeam();
         return view('admin.users.team', [
-            'users' => $users    
+            'team' => $team   
         ]);
     }
 
     public function userSetStatus(Request $request)
-    {        
-        $user = User::find($request->id);
-        $user->status = $request->status;
-        $user->save();
-        return response()->json(['success' => true]);
+    {   
+        $status = $this->userService->setStatus($request->all()); 
+        return response()->json($status);
     }
 
     public function fetchCity(Request $request)
@@ -103,12 +108,17 @@ class UserController extends Controller
         $user->setClientAttribute($request->client);
         $user->setSuperAdminAttribute($request->superadmin);
 
-        if(Carbon::parse($request->nasc)->age < 18){
+        $nasc = Carbon::createFromFormat('d/m/Y', $request->nasc)->format('d-m-Y');        
+        
+        if(Carbon::parse($nasc)->age < 18){
             return redirect()->back()->with(['color' => 'danger', 'message' => 'Data de nascimento inválida!']);
         }
 
-        if($request->estado_civil == 'separado' || $request->estado_civil == 'casado' && Carbon::parse($request->nasc_conjuje)->age < 18){
-            return redirect()->back()->with(['color' => 'danger', 'message' => 'Data de nascimento do conjuje inválida!']);
+        if($request->estado_civil == 'casado'){
+            $nasc_conjuje = Carbon::createFromFormat('d/m/Y', $request->nasc_conjuje)->format('d-m-Y');
+            if(Carbon::parse($nasc_conjuje)->age < 18){
+                return redirect()->back()->with(['color' => 'danger', 'message' => 'Data de nascimento do conjuje inválida!']);
+            }            
         }
 
         if(!empty($request->file('avatar'))){
